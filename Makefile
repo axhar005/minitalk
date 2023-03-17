@@ -6,7 +6,7 @@
 #    By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:34:33 by oboucher          #+#    #+#              #
-#    Updated: 2023/03/06 18:03:09 by oboucher         ###   ########.fr        #
+#    Updated: 2023/03/16 15:34:23 by oboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ LDIR = ft_libft/
 
 SRCDIR = src
 
-SRCS = 	
+SRCS = 	server.c client.c client.c ft_bzero.c ft_calloc.c ft_itoa.c ft_putendl_fd.c ft_putnbr_fd.c  ft_putstr_fd.c  ft_strlen.c server.c
 
 VPATH	=	${SRCDIR}
 
