@@ -6,14 +6,14 @@
 #    By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:34:33 by oboucher          #+#    #+#              #
-#    Updated: 2023/03/16 15:34:23 by oboucher         ###   ########.fr        #
+#    Updated: 2023/03/17 20:00:51 by oboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #--- LIBRARY NAME ---#
-NAME = 
+NAME = minitalk
 
-CNAME = $(YELLOW)~ PRINTF ${GREEN}
+CNAME = $(YELLOW)~ Minitalk
 
 #--- COMMAND VARIABLES ---#
 CC = gcc
@@ -48,13 +48,9 @@ WECHO = @echo "$(WHITE)"
 INCDIR = inc
 
 #--- SOURCE ---#
-LIBFT = libft.a
-
-LDIR = ft_libft/
-
 SRCDIR = src
 
-SRCS = 	server.c client.c client.c ft_bzero.c ft_calloc.c ft_itoa.c ft_putendl_fd.c ft_putnbr_fd.c  ft_putstr_fd.c  ft_strlen.c server.c
+SRCS = 	client.c ft_atoi.c ft_bzero.c ft_calloc.c ft_isdegit.c ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c server.c
 
 VPATH	=	${SRCDIR}
 
@@ -67,17 +63,15 @@ OBJS = $(addprefix ${OBJDIR}/, ${SRCS:.c=.o})
 ${OBJDIR}/%.o : %.c
 	@${CC} ${CFLAGS} -I${INCDIR} -I. -c $< -o $@
 	
-all				: 	 	pokeball libft $(NAME)
+all				: 	 	pokeball $(NAME)
 	
 $(NAME)			: 		$(OBJDIR) $(OBJS)
-	@$(AR) $(NAME) $(OBJS)
-	@echo "$(CNAME) sucessefully compiled 📁.${RESET}"
+	@${CC} ${CFLAGS} -I${INCDIR} -o ${NAME} ${OBJS}
+	@echo "$(CNAME)${GREEN} sucessefully compiled 📁.${RESET}"
 
 $(OBJDIR)		:
 	@$(MK) ${OBJDIR}
 
-libft			:
-	@$(MAKE) -C $(LDIR)
 
 pokeball		:
 	clear
@@ -89,16 +83,20 @@ pokeball		:
 	@echo	"          ##############          "
 	@echo	"           ############           "
 	@echo	"              ######              \n"
+	@echo	"${BLUE}----------------------------------\n"
+	@echo	"|            ${YELLOW}MINITALK${BLUE}            |\n"
+	@echo	"----------------------------------\n${RESET}"
 
+run 			:		all
+	@./${NAME}
+	
 clean			:
 	@$(RM) $(OBJS)
 	@$(RM)r $(OBJDIR)
-	@$(MAKE) -C $(LDIR) clean
 	
 fclean			: 		clean	
 	@$(RM) $(NAME)
-	@$(MAKE) -C $(LDIR) fclean
-	@echo "$(CNAME) object files and executable successfully removed 🗑.${RESET}"
+	@echo "$(CNAME)${GREEN} object files and executable successfully removed 🗑.${RESET}"
 
 re				: 		fclean all
 

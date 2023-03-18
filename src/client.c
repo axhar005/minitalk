@@ -6,18 +6,51 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:05 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/16 16:44:11 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:04:00 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int main (int argc, char *argv)
+//type_size = 8bit/32bit
+void send(unsigned int octet, int pid, int type_size)
 {
-    int server_pid;
+    int i;
     
-    if (argc == 2)
+    (void)pid;
+    i = type_size;
+    while(i)
+    {
+        usleep(50);
+        i--;
+        if ((octet >> i & 1) == 1)
+        {
+            printf("1");
+            //kill(pid, SIGUSR2);
+        }
+        else
+        {
+            printf("0");
+            //kill(pid, SIGUSR1);
+        }
+    }
+    
+}
+
+int main (int argc, char **argv)
+{
+    siginfo_t   info;
+    int server_pid;
+    int i;
+    
+    i = 0;
+    if (argc == 3)
     {
         server_pid = ft_atoi(argv[1]);
+        if (server_pid == info.si_pid)
+        {
+            exit(-1);
+        }   
+            send('A', 687, 8);
     }
 }
