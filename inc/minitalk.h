@@ -6,18 +6,22 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:16:55 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/17 17:04:30 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:06:05 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
+# define CHAR_SIZE 8
+# define INT_SIZE 32
+
 //includes
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 //structs
 
@@ -32,5 +36,6 @@ size_t	ft_strlen(const char *str);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int	    ft_putchar_fd(char c, int fd);
+void	*ft_sfree(void *str);
 
 #endif

@@ -6,12 +6,13 @@
 #    By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:34:33 by oboucher          #+#    #+#              #
-#    Updated: 2023/03/20 11:59:53 by oboucher         ###   ########.fr        #
+#    Updated: 2023/03/29 13:04:00 by oboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #--- LIBRARY NAME ---#
-NAME = minitalk
+NAMES = server
+NAMEC = client
 
 CNAME = $(YELLOW)~ Minitalk
 
@@ -50,23 +51,31 @@ INCDIR = inc
 #--- SOURCE ---#
 SRCDIR = src
 
-SRCS = 	client.c ft_atoi.c ft_bzero.c ft_calloc.c ft_isdegit.c ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c server.c
+SRC = 	ft_atoi.c ft_bzero.c ft_calloc.c ft_isdegit.c ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c ft_sfree.c
+SRCS = 	server.c
+SRCC = 	client.c
 
 VPATH	=	${SRCDIR}
 
 #--- OBJECT ---#
 OBJDIR  =   obj
 
+OBJ = $(addprefix ${OBJDIR}/, ${SRC:.c=.o})
 OBJS = $(addprefix ${OBJDIR}/, ${SRCS:.c=.o})
+OBJC = $(addprefix ${OBJDIR}/, ${SRCC:.c=.o})
 
 #--- RULES ---#
 ${OBJDIR}/%.o : %.c
 	@${CC} ${CFLAGS} -I${INCDIR} -I. -c $< -o $@
 	
-all				: 	 	pokeball $(NAME)
+all				: 	 	pokeball $(NAMES) $(NAMEC)
 	
-$(NAME)			: 		$(OBJDIR) $(OBJS)
-	@${CC} ${CFLAGS} -I${INCDIR} -o ${NAME} ${OBJS}
+$(NAMES)			: 		$(OBJDIR) $(OBJ) $(OBJS)
+	@${CC} ${CFLAGS} -I${INCDIR} -o ${NAMES} ${OBJ} ${OBJS}
+	
+	
+${NAMEC}			:		$(OBJDIR) $(OBJ) $(OBJC)
+	@${CC} ${CFLAGS} -I${INCDIR} -o ${NAMEC} ${OBJ} ${OBJC}
 	@echo "$(CNAME)${GREEN} sucessefully compiled 📁.${RESET}"
 
 $(OBJDIR)		:
@@ -87,15 +96,19 @@ pokeball		:
 	@echo	"|               ${YELLOW}MINITALK${BLUE}               |\n"
 	@echo	"----------------------------------------\n${RESET}"
 
-run 			:		all
-	@./${NAME}
-	
+run				:		all
+	@./${NAMES}
+
+
 clean			:
+	@$(RM) $(OBJ)
+	@$(RM) $(OBJC)
 	@$(RM) $(OBJS)
 	@$(RM)r $(OBJDIR)
 	
 fclean			: 		clean	
-	@$(RM) $(NAME)
+	@$(RM) $(NAMES)
+	@$(RM) $(NAMEC)
 	@echo "$(CNAME)${GREEN} object files and executable successfully removed 🗑.${RESET}"
 
 re				: 		fclean all
