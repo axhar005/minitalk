@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/29 21:26:59 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:39:28 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,25 @@ void draw(pid_t pid)
     ft_putchar_fd('\n', 1);
 }
 
-void add_char(char **string, int *index, int len, char c)
+void add_char(char **string, int *index, int *len, char c)
 {
     //ft_putchar_fd(c, 1);
     if (*string == NULL)
-        *string = ft_calloc(len + 1, sizeof(char));
+        *string = ft_calloc(*len + 1, sizeof(char));
     string[0][*index] =  c;
-    if (*index == len-1)
+    if (*index == *len-1)
     {
         ft_putstr_fd(string[0], 1);
+        ft_putchar_fd('\n', 1);
+        string[0] = ft_sfree(string[0]);
         *index = 0;
+        *len = 0;
         return ;
     }
     *index += 1;
 }
 
-void ft_receive_len(int signal, int *length)
+void ft_receive_int(int signal, int *length)
 {
     static int bit;
     static int len;
@@ -60,39 +63,45 @@ void ft_receive_len(int signal, int *length)
     
 }
 
-void ft_receive(int signal, siginfo_t *info, void *context)
+void ft_receive_char(int signal, int *length)
 {
-    (void)context;
     static int bit = 0;
-    static int len = 0;
     static int index = 0;
     static char *string = NULL;
     static char c;
+    
+    //ft_putnbr_fd(length, 1);
+    if (bit <= 0)
+        bit = CHAR_SIZE;
+    if (signal == SIGUSR1)
+        signal = 0;
+    else if (signal == SIGUSR2)
+        signal = 1;
+    bit--;
+    c += (signal & 1) << bit;
+    if (bit == 0)
+    {
+        //ft_putchar_fd(c, 1);
+        add_char(&string, &index, length, c);
+        bit = CHAR_SIZE;
+        c = 0;
+    }
+}
+
+void ft_receive(int signal, siginfo_t *info, void *context)
+{
+    (void)context;
+    static int len = 0;
     int pid;
     
     if (len <= 0)
     {
-        ft_receive_len(signal, &len);
+        ft_receive_int(signal, &len);
     }
     else
     {
-        //ft_putnbr_fd(len, 1);
-        if (bit <= 0)
-            bit = CHAR_SIZE;
-        if (signal == SIGUSR1)
-            signal = 0;
-        else if (signal == SIGUSR2)
-            signal = 1;
-        bit--;
-        c += (signal & 1) << bit;
-        if (bit == 0)
-        {
-            //ft_putchar_fd(c, 1);
-            add_char(&string, &index, len, c);
-            bit = CHAR_SIZE;
-            c = 0;
-            pid = info->si_pid;
-        }
+        ft_receive_char(signal, &len);
+        pid = info->si_pid;
     }
 }
 

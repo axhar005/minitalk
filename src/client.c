@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:05 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/29 22:13:03 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:30:58 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ft_send(unsigned int octet, int pid, int type_size)
     i = type_size;
     while(i)
     {
-        usleep(100);
+        usleep(50);
         i--;
         if ((octet >> i & 1) == 1)
         {
