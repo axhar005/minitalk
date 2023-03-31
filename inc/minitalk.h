@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:16:55 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/30 15:36:51 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:01:03 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct s_var
 	char			c;
 	int				bit_index;
 	int				index;
-	int				len;
-    pid_t           pid;
+	int				length;
+	pid_t			pid;
 }					t_var;
 
 //prototypes
@@ -41,10 +41,11 @@ void				*ft_calloc(size_t count, size_t size);
 void				ft_putendl_fd(char *s, int fd);
 int					ft_putnbr_fd(int n, int fd);
 int					ft_putstr_fd(char *s, int fd);
-size_t				ft_strlen(const char *str);
+size_t				ft_strlen(char *str);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 int					ft_putchar_fd(char c, int fd);
 void				*ft_sfree(void *str);
+int					ft_putustr_fd(unsigned char *s, int fd);
 
 #endif

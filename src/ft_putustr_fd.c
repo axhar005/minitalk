@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putustr_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:01:36 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/30 15:54:06 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:00:59 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_putstr_fd(char *s, int fd)
+int	ft_putustr_fd(unsigned char *s, int fd)
 {
 	int	i;
 

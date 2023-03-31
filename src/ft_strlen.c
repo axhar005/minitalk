@@ -6,13 +6,13 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 14:18:56 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/16 15:30:51 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:53:54 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(char *str)
 {
 	size_t	i;
 

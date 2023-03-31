@@ -6,7 +6,7 @@
 #    By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 12:34:33 by oboucher          #+#    #+#              #
-#    Updated: 2023/03/29 13:04:00 by oboucher         ###   ########.fr        #
+#    Updated: 2023/03/30 16:03:57 by oboucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ INCDIR = inc
 #--- SOURCE ---#
 SRCDIR = src
 
-SRC = 	ft_atoi.c ft_bzero.c ft_calloc.c ft_isdegit.c ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c ft_sfree.c
+SRC = 	ft_atoi.c ft_bzero.c ft_calloc.c ft_isdegit.c ft_itoa.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_strlen.c ft_sfree.c ft_putustr_fd.c
 SRCS = 	server.c
 SRCC = 	client.c
 
