@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:16:55 by oboucher          #+#    #+#             */
-/*   Updated: 2023/03/30 17:01:03 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/03/31 17:38:11 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,24 @@
 # include <unistd.h>
 
 //structs
-typedef struct s_var
+typedef struct s_sdata
 {
 	unsigned char	*string;
 	char			c;
 	int				bit_index;
 	int				index;
 	int				length;
-	pid_t			pid;
-}					t_var;
+	pid_t			server_pid;
+	pid_t			client_pid;
+}					t_sdata;
+
+typedef struct s_cdata
+{
+    pid_t server_pid;
+	int length;
+	int index;
+	char *string;
+}					t_cdata;
 
 //prototypes
 char				*ft_itoa(int n);
