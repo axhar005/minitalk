@@ -6,125 +6,140 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/01 01:42:19 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:55:57 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static t_sdata *get_data()
+static t_sdata	*get_data()
 {
-    static t_sdata data;
-    return(&data);
+	static t_sdata	data;
+
+	return (&data);
 }
 
-void draw()
+void ft_draw_info()
 {
     ft_putendl_fd("----------------------------------------", 1);
-    ft_putendl_fd("|              Server info             |", 1);
+    ft_putendl_fd("|             Server Info              |", 1);
     ft_putendl_fd("----------------------------------------", 1);
-    ft_putstr_fd("- PID : ", 1);
+    ft_putstr_fd("~ Server PID     : ", 1);
     ft_putnbr_fd(get_data()->server_pid, 1);
-    ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', 1);
+}
+
+void ft_initialize_struct()
+{
+	get_data()->string = ft_sfree(get_data()->string);
+	get_data()->bit_index = 0;
+	get_data()->c = 0;
+	get_data()->server_pid = getpid();
+	get_data()->client_pid = 0;
+	get_data()->string_index = 0;
+	get_data()->string_len = 0;
+	get_data()->start_recieve = false;
 }
 
 void add_char()
 {
-    if (get_data()->string == NULL)
-        get_data()->string = ft_calloc(get_data()->length + 1, sizeof(char));
-    get_data()->string[get_data()->index] =  get_data()->c;
-    if (get_data()->index == get_data()->length-1)
-    {
-        ft_putustr_fd(get_data()->string, 1);
-        ft_putchar_fd('\n', 1);
-        get_data()->string = ft_sfree(get_data()->string);
-        get_data()->index = 0;
-        get_data()->length = 0;
-        return ;
-    }
-    get_data()->index += 1;
+	if (!get_data()->string)
+		get_data()->string = ft_calloc(get_data()->string_len + 1, sizeof(char));
+	get_data()->string[get_data()->string_index] = get_data()->c;
+	if (get_data()->string_index == (get_data()->string_len - 1))
+	{
+		kill(get_data()->client_pid, SIGUSR2);
+		ft_putendl_fd("~ Message recieve :", 1);
+		ft_putendl_fd(get_data()->string, 1);
+   		ft_putchar_fd('\n', 1);
+		ft_initialize_struct();
+		return;
+	}
+	get_data()->string_index++;
 }
 
-void ft_receive_int(int signal)
-{
-    static int len = 0;
-    
-    if (get_data()->bit_index <= 0)
-        get_data()->bit_index = INT_SIZE;
-    if (signal == SIGUSR1)
-        signal = 0;
-    else if (signal == SIGUSR2)
-        signal = 1;
-    get_data()->bit_index--;
-	len += (signal & 1) << get_data()->bit_index;
-    if (get_data()->bit_index == 0)
-    {
-        get_data()->length = len;
-        len = 0;
-        //kill(get_data()->client_pid, SIGUSR1);
-        ft_putnbr_fd(get_data()->length, 1);
-        ft_putchar_fd('\n', 1);
-    }
-    
-}
-
-//Get signal and transform in char
 void ft_receive_char(int signal)
-{   
-    if (get_data()->bit_index <= 0)
-        get_data()->bit_index = CHAR_SIZE;
-    if (signal == SIGUSR1)
-    {
+{
+	if (get_data()->bit_index <= 0)
+		get_data()->bit_index = CHAR_SIZE;
+	if (signal == SIGUSR1)
         signal = 0;
-       // ft_putchar_fd('0', 1);
-    }
     else if (signal == SIGUSR2)
-    {
         signal = 1;
-    }
     get_data()->bit_index--;
-    get_data()->c += (signal & 1) << get_data()->bit_index;
-    ft_putchar_fd(get_data()->c, 1);
-    if (get_data()->bit_index == 0)
-    {
-        add_char();
-        get_data()->c = 0;
-        //kill(get_data()->client_pid, SIGUSR1);
-    }
+	get_data()->c += (signal & 1) << get_data()->bit_index;
+	if (get_data()->bit_index <= 0)
+	{
+		add_char();
+		get_data()->c = 0;
+	}
+	if (get_data()->client_pid != 0)
+		kill(get_data()->client_pid, SIGUSR1);
 }
 
-//Receive signal and dispatch for int or char
-void ft_receive(int signal, siginfo_t *info, void *context)
+void ft_receive_len(int signal)
 {
-    (void)context;
-    int opid;
-    if (get_data()->length <= 0)
-    {
-        ft_receive_int(signal);
-    }
-    else
-    {
-        ft_receive_char(signal);
-        opid = info->si_pid;
-    }
+	static int len = 0;
+	static int bit = 0;
+	
+	if (bit <= 0)
+		bit = INT_SIZE;
+	if (signal == SIGUSR1)
+        signal = 0;
+    else if (signal == SIGUSR2)
+        signal = 1;
+    bit--;
+	len += (signal & 1) << bit;
+	if (bit <= 0)
+	{
+		get_data()->string_len = len;
+		len = 0;
+		bit = 0;
+		ft_putstr_fd("~ Message length : ", 1);
+		ft_putnbr_fd(get_data()->string_len, 1);
+   		ft_putchar_fd('\n', 1);
+		kill(get_data()->client_pid, SIGUSR2);
+		return;
+	}
+	kill(get_data()->client_pid, SIGUSR1);
 }
 
-int main(void)
+void ft_receive_sort(int signal, siginfo_t *info, void *context)
 {
-    struct sigaction sig;
+	(void)*context;
+	if (get_data()->client_pid == 0)
+		get_data()->client_pid = info->si_pid;
+	if (info->si_pid == get_data()->client_pid || info->si_pid == 0)
+	{
+		if (get_data()->start_recieve == false)
+		{
+			if (signal == SIGUSR1)
+			{
+				get_data()->start_recieve = true;
+				kill(get_data()->client_pid, SIGUSR1);
+			}
+		}
+		else if (get_data()->start_recieve == true)
+		{
+			if (get_data()->string_len <= 0)
+				ft_receive_len(signal);
+			else
+				ft_receive_char(signal);
+		}
+	}
+}
 
-    get_data()->string = NULL;
-    get_data()->bit_index = 0;
-    get_data()->index = 0;
-    get_data()->length = 0;
-    get_data()->c = 0;
-    get_data()->server_pid = getpid();
-    draw();
-    sig.sa_sigaction = ft_receive;
-    sig.sa_flags = SA_SIGINFO;
-    sigaction(SIGUSR1, &sig, NULL);
-    sigaction(SIGUSR2, &sig, NULL);
-    while(1)
-        pause();
-    return(0);
+int	main(void)
+{
+	struct sigaction sig;
+	
+	ft_initialize_struct();
+	ft_draw_info();
+	sig.sa_sigaction = ft_receive_sort;
+	sig.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sig, NULL);
+	sigaction(SIGUSR2, &sig, NULL);
+	while (true)
+		pause();
+	return (0);
 }
