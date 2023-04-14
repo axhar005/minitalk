@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 21:48:59 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/13 23:01:27 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ void	ft_receive_char(int signal)
 //This function revieve int bit from client
 void	ft_receive_len(int signal)
 {
-	static int	len;
-	static int	bit;
+	static int	len = 0;
+	static int	bit = 0;
 
-	len = 0;
-	bit = 0;
 	if (bit <= 0)
 		bit = INT_SIZE;
 	if (signal == SIGUSR1)
