@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 20:35:42 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 21:47:38 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/13 23:26:27 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ void	ft_initialize_cstruct(t_cdata *data, char **argv)
 	data->server_pid = ft_atoi(argv[1]);
 	data->string = argv[2];
 	data->string_index = 0;
-	data->string_len = ft_strlen(argv[2]);
+	data->string_len = strlen(argv[2]);
 }

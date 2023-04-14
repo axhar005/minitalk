@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 23:01:27 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:24:31 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,20 @@ void	ft_receive_char(int signal)
 void	ft_receive_len(int signal)
 {
 	static int	len = 0;
-	static int	bit = 0;
 
-	if (bit <= 0)
-		bit = INT_SIZE;
+	if (data()->bit_index <= 0)
+		data()->bit_index = INT_SIZE;
 	if (signal == SIGUSR1)
 		signal = 0;
 	else if (signal == SIGUSR2)
 		signal = 1;
-	bit--;
-	len += (signal & 1) << bit;
-	if (bit <= 0)
+	data()->bit_index--;
+	len += (signal & 1) << data()->bit_index;
+	if (data()->bit_index <= 0)
 	{
 		data()->string_len = len;
 		len = 0;
-		bit = 0;
+		data()->bit_index = 0;
 		ft_putstr_fd("~ Message length : ", 1);
 		ft_putnbr_fd(data()->string_len, 1);
 		ft_putchar_fd('\n', 1);

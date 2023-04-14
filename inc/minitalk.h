@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:16:55 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 21:47:50 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:20:20 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <string.h>
 
 //structs
 typedef struct s_sdata
