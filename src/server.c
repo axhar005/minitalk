@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/25 23:37:42 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:12:10 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_receive_len(int signal)
 void	ft_receive_sort(int signal, siginfo_t *info, void *context)
 {
 	(void)*context;
+	data()->tick = 0;
 	if (data()->client_pid == 0)
 		data()->client_pid = info->si_pid;
 	if (info->si_pid == data()->client_pid || info->si_pid == 0)
@@ -99,11 +100,20 @@ int	main(void)
 
 	init_server_struct(data());
 	draw_server_info(data());
+	data()->tick = 0;
 	sig.sa_sigaction = ft_receive_sort;
 	sig.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);
 	while (true)
-		pause();
+	{
+		if (data()->tick == 10000)
+		{
+			data()->tick = 0;
+			init_server_struct(data());
+		}
+		usleep(10);
+		data()->tick++;
+	}
 	return (0);
 }

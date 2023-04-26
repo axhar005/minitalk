@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:05 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/25 22:56:12 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:11:37 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,18 @@ int	main(int argc, char **argv)
 		sig.sa_flags = SA_SIGINFO;
 		sigaction(SIGUSR1, &sig, NULL);
 		sigaction(SIGUSR2, &sig, NULL);
-		kill(data()->server_pid, SIGUSR1);
+		if (data()->string[0] != '\0')
+			kill(data()->server_pid, SIGUSR1);
 	}
 	while (true)
 	{
-		usleep(10);
-		data()->tick++;
 		if (data()->tick == 1000)
 		{
 			ft_putendl_fd("\033[31;1mFail to send data!", 1);
 			exit(EXIT_FAILURE);
 		}
+		usleep(10);
+		data()->tick++;
 	}
 	return (0);
 }

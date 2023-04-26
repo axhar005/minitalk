@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:16:55 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/25 20:36:24 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:59:58 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_sdata
 	int		string_index;
 	int		bit_index;
 	char	c;
+	int		tick;
 	char	*string;
 }			t_sdata;
 
