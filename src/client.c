@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:05 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 23:36:46 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/25 22:56:12 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_receive_sort(int signal, siginfo_t *info, void *context)
 			}
 			else
 			{
-				ft_putendl_fd("Message sended !", 1);
+				ft_putendl_fd("\033[32;1mMessage sended !", 1);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -96,7 +96,7 @@ int	main(int argc, char **argv)
 		data()->tick++;
 		if (data()->tick == 1000)
 		{
-			ft_putendl_fd("Fail to recieve data!", 1);
+			ft_putendl_fd("\033[31;1mFail to send data!", 1);
 			exit(EXIT_FAILURE);
 		}
 	}

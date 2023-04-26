@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 20:35:42 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/13 23:26:27 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/25 23:43:44 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 //This function draw server info
 void	draw_server_info(t_sdata *data)
 {
+	ft_putendl_fd("\033[34;1m----------------------------------------", 1);
+	ft_putstr_fd("|             ", 1);
+	ft_putendl_fd("\033[33;1mServer Info\033[34;1m              |", 1);
 	ft_putendl_fd("----------------------------------------", 1);
-	ft_putendl_fd("|             Server Info              |", 1);
-	ft_putendl_fd("----------------------------------------", 1);
-	ft_putstr_fd("~ Server PID     : ", 1);
+	ft_putstr_fd("\033[33;1m~ PID :\033[36;1m ", 1);
 	ft_putnbr_fd(data->server_pid, 1);
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd("\033[0m\n", 1);
 }
 
 //This function initializes t_sdata struct
@@ -46,9 +47,9 @@ void	add_char(t_sdata *data)
 	if (data->string_index == (data->string_len - 1))
 	{
 		kill(data->client_pid, SIGUSR2);
-		ft_putendl_fd("~ Message recieve :", 1);
+		ft_putendl_fd("\033[37;1m", 1);
 		ft_putendl_fd(data->string, 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("\033[0m\n", 1);
 		init_server_struct(data);
 		return ;
 	}
@@ -64,5 +65,5 @@ void	ft_initialize_cstruct(t_cdata *data, char **argv)
 	data->server_pid = ft_atoi(argv[1]);
 	data->string = argv[2];
 	data->string_index = 0;
-	data->string_len = strlen(argv[2]);
+	data->string_len = ft_strlen(argv[2]);
 }

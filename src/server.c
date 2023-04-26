@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/14 11:24:31 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/25 23:37:42 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	ft_receive_len(int signal)
 		data()->string_len = len;
 		len = 0;
 		data()->bit_index = 0;
-		ft_putstr_fd("~ Message length : ", 1);
+		ft_putstr_fd("\033[33;1m~ Length : \033[36;1m", 1);
 		ft_putnbr_fd(data()->string_len, 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("\033[0m", 1);
 		kill(data()->client_pid, SIGUSR2);
 		return ;
 	}
