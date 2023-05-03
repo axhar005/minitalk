@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:05 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/26 15:11:37 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/05/02 20:51:58 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(int argc, char **argv)
 	{
 		if (data()->tick == 1000)
 		{
-			ft_putendl_fd("\033[31;1mFail to send data!", 1);
+			ft_putendl_fd("\033[31;1mFail to send data !", 1);
 			exit(EXIT_FAILURE);
 		}
 		usleep(10);

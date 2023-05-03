@@ -6,7 +6,7 @@
 /*   By: oboucher <oboucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:07 by oboucher          #+#    #+#             */
-/*   Updated: 2023/04/26 15:12:10 by oboucher         ###   ########.fr       */
+/*   Updated: 2023/04/27 23:13:39 by oboucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	ft_receive_sort(int signal, siginfo_t *info, void *context)
 				ft_receive_char(signal);
 		}
 	}
+
 }
 
 int	main(void)
@@ -107,7 +108,7 @@ int	main(void)
 	sigaction(SIGUSR2, &sig, NULL);
 	while (true)
 	{
-		if (data()->tick == 10000)
+		if (data()->tick >= 10000)
 		{
 			data()->tick = 0;
 			init_server_struct(data());
